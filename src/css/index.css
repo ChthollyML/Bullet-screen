@@ -1,0 +1,152 @@
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  font-family: "微软雅黑";
+  font-size: 100%;
+}
+/* 弹幕 */
+.bulletbox {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.bulletboxmin {
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(100% - 130px);
+}
+/* bulletbot */
+.bulletbot {
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #404060;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.bulletbotmin {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-align-items: center;
+  align-items: center;
+  height: 130px;
+}
+.bulletbotmin p {
+  font-size: 20px;
+  color: #ffffff;
+  margin-right: 10px;
+}
+.bulletbotmin input {
+  display: block;
+  width: 400px;
+  height: 50px;
+  outline: none;
+  background-color: #ffffff;
+  border: none;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-sizing: border-box;
+  padding: 0 20px;
+  font-size: 16px;
+  color: #333333;
+}
+.bulletbotmin button {
+  display: block;
+  width: 140px;
+  height: 50px;
+  background-color: #0099cc;
+  border: none;
+  outline: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.btn-list1{
+  position: absolute;
+  margin-left:auto;
+  left: 40px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.btn-list2{
+  position: absolute;
+  margin-left:auto;
+  left: 200px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.btn-list3{
+  position: absolute;
+  margin-left:auto;
+  left: 1400px;
+  top: 40px;;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.select{
+  position: absolute;
+  margin-left:auto;
+  left: 1200px;
+  top: 50px;
+  height: 30px;
+  width: 150px;
+}
+.bulletbox span {
+  width: 300px;
+  height: 40px;
+  position: absolute;
+  overflow: hidden;
+  font-size: 30px;
+  color: #afeeee;
+  line-height: 40px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: bold;
+}
+.videoId-box {
+  width: 100%;
+  height: 900px;
+  position: absolute;
+  left: 0;
+  background-color: rgb(242, 236, 236);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttons{
+  position: absolute;
+  right: 0;
+}
+.bulletmu {
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(100% - 130px);
+  position: absolute;
+}
+img.maskImg {
+  width: 1500x;
+  height: 800px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+}
+#maskImgId {
+  width: 1500px;
+  height: 800px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
