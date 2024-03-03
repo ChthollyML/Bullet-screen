@@ -21,7 +21,8 @@ const initFn = async () => {
   videpToCanvas();
   setTimeout(() => {
     isRunning = false;
-  }, 5000); // 设置定时器，5000 毫秒后停止函数执行
+  }, 5000);
+  // 设置定时器，5000 毫秒后停止函数执行
 };
 //根据视频绘制每一帧
 const videpToCanvas = () => {
@@ -53,12 +54,12 @@ const segmenterFn = async (imageData, x, y) => {
     false,
     0.1
   );
-  const canvas2 = document.createElement("canvas");
-  const context2 = canvas2.getContext("2d");
-  canvas2.width = 1500;
-  canvas2.height = 800;
-  context2.putImageData(bgMask, x, y);
-  const imgBase64 = canvas2.toDataURL("image/png");
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  canvas.width = 1500;
+  canvas.height = 800;
+  context.putImageData(bgMask, x, y);
+  const imgBase64 = canvas.toDataURL("image/png");
   imgRefMask.value = imgBase64;
   let maskImgIds = document.getElementById("bulletmu");
   maskImgIds.style = `-webkit-mask-image: url(${imgBase64});-webkit-mask-size: 1500px;800px;`;
@@ -232,7 +233,8 @@ $(function () {
       <div class="bulletboxmin" id="bulletboxmin">
         <div class="bulletmu" id="bulletmu"></div>
         <div id="videoId-box" style="display: inline-block">
-          <img :src="imgRefMask" class="maskImg" />
+          <!-- <img :src="imgRefMask" class="maskImg" /> -->
+          <!-- 本标签用于展示模型分割后的人像 -->
           <video
             id="videoId"
             width="1500"
@@ -242,9 +244,6 @@ $(function () {
             class="videoId"
           ></video>
         </div>
-        <!-- <div id="buttons">
-          <button id="buttons">弹幕不遮挡</button>
-        </div> -->
       </div>
       <div class="bulletbot">
         <div class="bulletbotmin">
