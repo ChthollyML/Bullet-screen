@@ -7,7 +7,8 @@ import * as bodySegmentation from "@tensorflow-models/body-segmentation";
 let imgRefMask = ref("");
 let segmenterObj = null;
 let isRunning = false;
-let danmudata=null;
+let danmudata = null;
+//初始化模型
 const initFn = async () => {
   isRunning = true;
   const model = bodySegmentation.SupportedModels.MediaPipeSelfieSegmentation;
@@ -22,7 +23,7 @@ const initFn = async () => {
     isRunning = false;
   }, 5000); // 设置定时器，5000 毫秒后停止函数执行
 };
-
+//根据视频绘制每一帧
 const videpToCanvas = () => {
   let videoIdObj = document.getElementById("videoId");
   let rect = videoIdObj.getBoundingClientRect();
@@ -31,15 +32,15 @@ const videpToCanvas = () => {
   render();
   function render() {
     if (videoIdObj.readyState === videoIdObj.HAVE_ENOUGH_DATA) {
-      canvasIdObjCtx.drawImage(videoIdObj,0,-60, 1500, 820);
-      const imageData = canvasIdObjCtx.getImageData(0,0, 1500, 820);
-      segmenterFn(imageData,rect.left,rect.top);
+      canvasIdObjCtx.drawImage(videoIdObj, 0, -60, 1500, 800);
+      const imageData = canvasIdObjCtx.getImageData(0, 0, 1500, 800);
+      segmenterFn(imageData, rect.left, rect.top);
     }
     requestAnimationFrame(render);
   }
 };
-
-const segmenterFn = async (imageData,x,y) => {
+//将绘制的帧进行人体识别，再渲染出来
+const segmenterFn = async (imageData, x, y) => {
   const people = await segmenterObj.segmentPeople(imageData);
   console.log(people);
   // Convert the segmentation into a mask to darken the background.
@@ -55,12 +56,12 @@ const segmenterFn = async (imageData,x,y) => {
   const canvas2 = document.createElement("canvas");
   const context2 = canvas2.getContext("2d");
   canvas2.width = 1500;
-  canvas2.height = 820;
-  context2.putImageData(bgMask,x,y);
+  canvas2.height = 800;
+  context2.putImageData(bgMask, x, y);
   const imgBase64 = canvas2.toDataURL("image/png");
   imgRefMask.value = imgBase64;
   let maskImgIds = document.getElementById("bulletmu");
-  maskImgIds.style = `-webkit-mask-image: url(${imgBase64});-webkit-mask-size: 1500px;820px;`;
+  maskImgIds.style = `-webkit-mask-image: url(${imgBase64});-webkit-mask-size: 1500px;800px;`;
 };
 const randomColor = () => {
   var colorArr = [
@@ -82,7 +83,7 @@ const randomColor = () => {
   var color = parseInt(Math.random() * colorArr.length);
   return colorArr[color];
 };
-const test = ()=>{
+const test = () => {
   for (var i = 0; i < 10; i++) {
     //评论产生的随机高度
     var pageH = parseInt(Math.random() * 600);
@@ -108,67 +109,59 @@ const test = ()=>{
   }
 };
 const danmu = (danmudata) => {
-  console.log("运行中")
+  console.log("运行中");
   const video = document.getElementById("videoId");
   var currentTime = Math.ceil(video.currentTime);
   const videoName = $("#videoSelect").val();
-  let currentdanmu = danmudata.filter((item, i ,arr)=>{
-    return (item.time === currentTime&&item.video === videoName)
-  })
-  console.log(currentTime)
-  for(var i =0 ;i< currentdanmu.length;i++)
-  { 
-  var str=currentdanmu[i].data
-  //评论产生的随机高度
-  var pageH = parseInt(Math.random() * 600);
-  //创建span元素（弹幕条）
-  var newSpan = $("<span></span>");
-  //获取用户输入的字符
-  //为新元素赋值
-  newSpan.text(str);
-  //每次发表后清空输入框
-  $("#text").val("");
-  //设置弹幕出现位置
-  newSpan.css("left", "1200px");
-  newSpan.css("top", pageH);
-  //设置弹幕颜色
-  newSpan.css("color", randomColor());
-  //弹幕动画
-  newSpan.animate({ left: -500 }, 10000, "linear", function () {
-    $(this).remove();
+  let currentdanmu = danmudata.filter((item, i, arr) => {
+    return item.time === currentTime && item.video === videoName;
   });
-  //弹幕添加
-  newSpan.appendTo("#bulletmu");
+  console.log(currentTime);
+  for (var i = 0; i < currentdanmu.length; i++) {
+    var str = currentdanmu[i].data;
+    var pageH = parseInt(Math.random() * 600);
+    var newSpan = $("<span></span>");
+    newSpan.text(str);
+    $("#text").val("");
+    newSpan.css("left", "1200px");
+    newSpan.css("top", pageH);
+    newSpan.css("color", randomColor());
+    newSpan.animate({ left: -500 }, 10000, "linear", function () {
+      $(this).remove();
+    });
+    newSpan.appendTo("#bulletmu");
   }
 };
 onMounted(() => {
-  axios.get('http://localhost:8888')
-      .then(response => {
-        console.log(response.data);
-        danmudata=response.data;
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  let videoIdObj = document.getElementById("videoId");
-  videoIdObj.addEventListener("play", () => {
+  axios
+    .get("http://localhost:8888")
+    .then((response) => {
+      console.log(response.data);
+      danmudata = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  setInterval(() => {  
-    test()
-    //danmu(danmudata)
-      },1000)
+  let videoIdObj = document.getElementById("videoId");
+  videoIdObj.addEventListener("play", () => {});
+  setInterval(() => {
+    //test()函数生成大量测试弹幕
+    //test()
+    //danmu(danmudata) 函数导入用户输入过的弹幕
+    danmu(danmudata);
+  }, 1000);
 });
 function open1() {
   initFn();
 }
 function open2() {
-    window.location.reload();
+  window.location.reload();
 }
 function open3() {
-    const videoElement = document.getElementById("videoId");
-// 更改视频源
-		const videoName = $("#videoSelect").val();
-    videoElement.src="src/video/"+videoName
+  const videoElement = document.getElementById("videoId");
+  // 更改视频源
+  const videoName = $("#videoSelect").val();
+  videoElement.src = "src/video/" + videoName;
 }
 </script>
 
@@ -176,42 +169,33 @@ function open3() {
 import $ from "jquery";
 import axios from "axios";
 $(function () {
-  $(document).on('click','#btn-dm',function (e) {
+  $(document).on("click", "#btn-dm", function (e) {
     e.preventDefault();
     e.stopPropagation();
     const video = document.getElementById("videoId");
     var currentTime = Math.ceil(video.currentTime);
     const videoName = $("#videoSelect").val();
-    //评论产生的随机高度
     var pageH = parseInt(Math.random() * 600);
-    //创建span元素（弹幕条）
     var newSpan = $("<span></span>");
-    //获取用户输入的字符串
     var str = $("#text").val();
-    //为新元素赋值
     newSpan.text(str);
-    //每次发表后清空输入框
     $("#text").val("");
-    //设置弹幕出现位置
     newSpan.css("left", "1200px");
     newSpan.css("top", pageH);
-    //设置弹幕颜色
     newSpan.css("color", randomColor());
-    //弹幕动画
     newSpan.animate({ left: -500 }, 10000, "linear", function () {
       $(this).remove();
     });
-    //弹幕添加
+
     newSpan.appendTo("#bulletmu");
     const data = {
-                video:videoName,
-                time:currentTime,
-                data:str
-              }
-    axios.post('http://localhost:8888',data,{
-      headers: { 'content-type': 'application/json' }
-      }
-    )
+      video: videoName,
+      time: currentTime,
+      data: str,
+    };
+    axios.post("http://localhost:8888", data, {
+      headers: { "content-type": "application/json" },
+    });
   });
 
   function randomColor() {
@@ -241,18 +225,18 @@ $(function () {
   <head>
     <meta charset="utf-8" />
     <title>弹幕dome</title>
-    <img :src="imgRefMask" alt="" />
     <canvas id="canvasId" width="1500" height="800"></canvas>
   </head>
   <body>
     <div class="bulletbox" id="bulletbox">
       <div class="bulletboxmin" id="bulletboxmin">
         <div class="bulletmu" id="bulletmu"></div>
-        <div id="videoId-box" style="display: inline-block;">
+        <div id="videoId-box" style="display: inline-block">
+          <img :src="imgRefMask" class="maskImg" />
           <video
             id="videoId"
             width="1500"
-            height="820"
+            height="800"
             controls
             src="../video/lx.mp4"
             class="videoId"
@@ -278,10 +262,8 @@ $(function () {
             v-model="text"
             placeholder="火力已加满..."
           />
-          <button type="button" class="btn" id="btn-dm">
-            发布
-          </button>
-          <select id="videoSelect" class="select"> 
+          <button type="button" class="btn" id="btn-dm">发布</button>
+          <select id="videoSelect" class="select">
             <option value="lx.mp4">罗翔</option>
             <option value="lyh.mp4">罗永浩</option>
             <option value="kk.mp4">蔡徐坤</option>
@@ -296,22 +278,22 @@ $(function () {
 </template>
 <style>
 #bulletboxmin {
-    position: relative; /* 确保设置相对定位 */
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    width: 100%; /* 根据需要设置宽度，这里假设要充满整个父容器 */
-    height: 100%; /* 同理，设置高度 */
-  }
+  position: relative; /* 确保设置相对定位 */
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  width: 100%; /* 根据需要设置宽度，这里假设要充满整个父容器 */
+  height: 100%; /* 同理，设置高度 */
+}
 
-  #videoId-box {
-    /* 如果需要的话，保留此样式以确保video的inline-block特性 */
-    display: inline-block;
-  }
+#videoId-box {
+  /* 如果需要的话，保留此样式以确保video的inline-block特性 */
+  display: inline-block;
+}
 
-  .videoId {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* 保持视频宽高比并适应容器大小 */
-  }
+.videoId {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* 保持视频宽高比并适应容器大小 */
+}
 </style>

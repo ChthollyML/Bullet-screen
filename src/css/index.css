@@ -139,8 +139,8 @@ img.maskImg {
   height: 800px;
   display: block;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 70px;
+  left: 0px;
   opacity: 0.7;
 }
 #maskImgId {
