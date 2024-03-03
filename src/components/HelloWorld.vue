@@ -237,7 +237,7 @@ $(function () {
             id="videoId"
             width="1500"
             height="800"
-            controls
+            controls="controls"
             src="../video/lx.mp4"
             class="videoId"
           ></video>
