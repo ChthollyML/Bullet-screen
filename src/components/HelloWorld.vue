@@ -25,20 +25,21 @@ const initFn = async () => {
 
 const videpToCanvas = () => {
   let videoIdObj = document.getElementById("videoId");
+  let rect = videoIdObj.getBoundingClientRect();
   let canvasIdObj = document.getElementById("canvasId");
   var canvasIdObjCtx = canvasIdObj.getContext("2d");
   render();
   function render() {
     if (videoIdObj.readyState === videoIdObj.HAVE_ENOUGH_DATA) {
-      canvasIdObjCtx.drawImage(videoIdObj, 0, 0, 1500, 800);
-      const imageData = canvasIdObjCtx.getImageData(0, 0, 1500, 800);
-      segmenterFn(imageData);
+      canvasIdObjCtx.drawImage(videoIdObj,0,-60, 1500, 820);
+      const imageData = canvasIdObjCtx.getImageData(0,0, 1500, 820);
+      segmenterFn(imageData,rect.left,rect.top);
     }
     requestAnimationFrame(render);
   }
 };
 
-const segmenterFn = async (imageData) => {
+const segmenterFn = async (imageData,x,y) => {
   const people = await segmenterObj.segmentPeople(imageData);
   console.log(people);
   // Convert the segmentation into a mask to darken the background.
@@ -54,12 +55,12 @@ const segmenterFn = async (imageData) => {
   const canvas2 = document.createElement("canvas");
   const context2 = canvas2.getContext("2d");
   canvas2.width = 1500;
-  canvas2.height = 800;
-  context2.putImageData(bgMask, 0, 0);
+  canvas2.height = 820;
+  context2.putImageData(bgMask,x,y);
   const imgBase64 = canvas2.toDataURL("image/png");
   imgRefMask.value = imgBase64;
   let maskImgIds = document.getElementById("bulletmu");
-  maskImgIds.style = `-webkit-mask-image: url(${imgBase64});-webkit-mask-size: 1500px;800px;`;
+  maskImgIds.style = `-webkit-mask-image: url(${imgBase64});-webkit-mask-size: 1500px;820px;`;
 };
 const randomColor = () => {
   var colorArr = [
@@ -153,8 +154,8 @@ onMounted(() => {
   videoIdObj.addEventListener("play", () => {
     });
   setInterval(() => {  
-    //test()
-    danmu(danmudata)
+    test()
+    //danmu(danmudata)
       },1000)
 });
 function open1() {
@@ -247,8 +248,7 @@ $(function () {
     <div class="bulletbox" id="bulletbox">
       <div class="bulletboxmin" id="bulletboxmin">
         <div class="bulletmu" id="bulletmu"></div>
-        <!-- <img class="maskImg" :src="imgRefMask" alt=""> -->
-        <div id="videoId-box">
+        <div id="videoId-box" style="display: inline-block;">
           <video
             id="videoId"
             width="1500"
@@ -294,3 +294,24 @@ $(function () {
     </div>
   </body>
 </template>
+<style>
+#bulletboxmin {
+    position: relative; /* 确保设置相对定位 */
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    width: 100%; /* 根据需要设置宽度，这里假设要充满整个父容器 */
+    height: 100%; /* 同理，设置高度 */
+  }
+
+  #videoId-box {
+    /* 如果需要的话，保留此样式以确保video的inline-block特性 */
+    display: inline-block;
+  }
+
+  .videoId {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 保持视频宽高比并适应容器大小 */
+  }
+</style>

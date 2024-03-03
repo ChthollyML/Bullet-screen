@@ -1,11 +1,23 @@
-# Vue 3 + Vite
+# 使用教程
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+首先需要先按照 node.js 和 npm
 
-## Recommended IDE Setup
+## 使用步骤
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+在程序根目录下执行
 
-啦啦啦
+```
+npm install
+```
 
-看看自动同步效果
+在 `C:\Download\前端\Bullet-screen\src\server` 目录下执行命令
+
+```
+node server.cjs
+```
+
+最后执行
+
+```
+npm run dev
+```
