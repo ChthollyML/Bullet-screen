@@ -6,6 +6,8 @@ const { data } = require('jquery');
 var app = express();
 app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json())
+__dirname = path.dirname(__dirname);
+var relativePath = path.join(__dirname, '../src/msg/danmu.json');
 //跨域
 app.all('*', (req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); 
@@ -16,7 +18,7 @@ app.all('*', (req, res, next) => {
     next();
 });
 app.get('',(req,res)=>{
-    var filepath = 'C:\\Download\\前端\\Bullet-screen\\src\\msg\\danmu.json'; //路径
+    var filepath = relativePath; //路径
     fs.readFile(filepath, 'utf-8', function(err,jsondata) {
         if (err) {
             res.send('文件读取失败');
@@ -29,7 +31,7 @@ app.get('',(req,res)=>{
 })
 //创建post接口
 app.post('', (req, res) => {
-    var filepath = 'C:\\Download\\前端\\Bullet-screen\\src\\msg\\danmu.json'; //路径
+    var filepath = relativePath; //路径
     fs.readFile(filepath, 'utf-8', function(err,jsondata) {
         if (err) {
             res.send('文件读取失败');
@@ -40,7 +42,7 @@ app.post('', (req, res) => {
                 let array = JSON.parse(jsondata)
                 array.push(data)
                 const newdata = JSON.stringify(array)
-                fs.writeFile('C:\\Download\\前端\\Bullet-screen\\src\\msg\\danmu.json',newdata,function(err){
+                fs.writeFile(relativePath,newdata,function(err){
                     if(err){
                         console.error(err);
                     }
