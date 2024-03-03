@@ -27,7 +27,7 @@ body {
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 110px;
+  height: 150px;
   background-color: #404060;
   display: flex;
   display: -webkit-flex;
@@ -73,31 +73,31 @@ body {
   color: #ffffff;
   cursor: pointer;
 }
-.btn-list1{
+.btn-list1 {
   position: absolute;
-  margin-left:auto;
+  margin-left: auto;
   left: 40px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
-.btn-list2{
+.btn-list2 {
   position: absolute;
-  margin-left:auto;
+  margin-left: auto;
   left: 200px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
-.btn-list3{
+.btn-list3 {
   position: absolute;
-  margin-left:auto;
+  margin-left: auto;
   left: 1400px;
-  top: 40px;;
+  top: 40px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
-.select{
+.select {
   position: absolute;
-  margin-left:auto;
+  margin-left: auto;
   left: 1200px;
   top: 50px;
   height: 30px;
@@ -125,7 +125,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-.buttons{
+.buttons {
   position: absolute;
   right: 0;
 }
