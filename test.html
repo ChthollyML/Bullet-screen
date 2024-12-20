@@ -1,0 +1,87 @@
+<head>
+  <title></title>
+  <meta charset="UTF-8" />
+  <style>
+    div {
+      padding: 40px;
+    }
+    #div3 {
+      width: 300px;
+      height: 100px;
+      border: 1px solid red;
+    }
+    #div2 {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+    }
+    #div1 {
+      width: 100px;
+      height: 100px;
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <div id="div3">
+    3
+    <div id="div2">
+      2
+      <div id="div1">1</div>
+    </div>
+  </div>
+  <a href="">返回顶部</a>
+</body>
+<script>
+  // var d = document.getElementById("div3");
+  // d.onclick = function (e) {
+  //   e.target.style.background = "red";
+  //   console.log(e.target);
+  //   console.log(e.currentTarget);
+  // };
+
+  // var promise1 = new Promise((resoleve, reject) => {
+  //   setTimeout(() => {
+  //     resoleve("promise1--3000");
+  //     console.log("promise1--3000");
+  //   }, 3000);
+  // });
+  // var promise2 = new Promise((resoleve, reject) => {
+  //   setTimeout(() => {
+  //     resoleve("promise2--1000");
+  //     console.log("promise2--1000");
+  //   }, 1000);
+  // });
+  // var promise3 = new Promise((resoleve, reject) => {
+  //   setTimeout(() => {
+  //     resoleve("promise3--5000");
+  //     console.log("promise3--5000");
+  //   }, 5000);
+  // });
+
+  // var promiseArr = [promise1, promise2, promise3];
+  // console.time("promiseArr");
+  // Promise.all(promiseArr)
+  //   .then((res) => {
+  //     console.log("res", res); // ['promise1--3000', 'promise1--1000', 'promise1--5000']
+  //     console.timeEnd("promiseArr"); // 5523.29296875 ms
+  //   })
+  //   .catch((err) => console.log(err));
+  // function clusture() {
+  //   let a = 0;
+  //   return function (t) {
+  //     console.log(a++);
+  //   };
+  // }
+  // var d1 = clusture();
+  // d1(10);
+  let arr = [1, 2, 3, 4, 4, 1];
+  let newArr = arr.reduce((pre, cur) => {
+    if (!pre.includes(cur)) {
+      return pre.concat(cur);
+    } else {
+      return pre;
+    }
+  }, []);
+  console.log(newArr); // [1, 2, 3, 4]
+</script>
