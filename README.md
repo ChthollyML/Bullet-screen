@@ -3,6 +3,8 @@
 
 TensorFlow.js官网 https://tensorflow.google.cn/js?hl=zh-cn
 
+演示视频：【Js也能跑深度学习？前端实现弹幕防遮挡功能】 https://www.bilibili.com/video/BV11x4y1r7dw
+
 首先使用需要先安装 node.js 和 npm
 
 ## 使用步骤
